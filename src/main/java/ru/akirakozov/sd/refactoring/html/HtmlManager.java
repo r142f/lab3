@@ -3,20 +3,19 @@ package ru.akirakozov.sd.refactoring.html;
 import ru.akirakozov.sd.refactoring.product.Product;
 
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 
 public class HtmlManager {
-    private <T> void printBody(PrintWriter writer, Action action) {
+    private void printBody(PrintWriter writer, Runnable action) {
         writer.println("<html><body>");
-        action.print();
+        action.run();
         writer.println("</body></html>");
     }
 
-    private void printWithHeader(PrintWriter writer, String header, Action action) {
+    private void printWithHeader(PrintWriter writer, String header, Runnable action) {
         printBody(writer, () -> {
             writer.println(header);
-            action.print();
+            action.run();
         });
     }
 
@@ -66,10 +65,5 @@ public class HtmlManager {
                 writer.println(product.getName() + "\t" + product.getPrice() + "</br>");
             }
         });
-    }
-
-    @FunctionalInterface
-    private interface Action {
-        void print();
     }
 }

@@ -4,6 +4,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.akirakozov.sd.refactoring.database.DatabaseManager;
+import ru.akirakozov.sd.refactoring.html.HtmlManager;
 import ru.akirakozov.sd.refactoring.servlet.AddProductServlet;
 import ru.akirakozov.sd.refactoring.servlet.GetProductsServlet;
 import ru.akirakozov.sd.refactoring.servlet.QueryServlet;
@@ -22,9 +23,10 @@ public class Main {
             context.setContextPath("/");
             server.setHandler(context);
 
-            context.addServlet(new ServletHolder(new AddProductServlet(databaseManager)), "/add-product");
-            context.addServlet(new ServletHolder(new GetProductsServlet(databaseManager)),"/get-products");
-            context.addServlet(new ServletHolder(new QueryServlet(databaseManager)),"/query");
+            HtmlManager htmlManager = new HtmlManager();
+            context.addServlet(new ServletHolder(new AddProductServlet(databaseManager, htmlManager)), "/add-product");
+            context.addServlet(new ServletHolder(new GetProductsServlet(databaseManager, htmlManager)), "/get-products");
+            context.addServlet(new ServletHolder(new QueryServlet(databaseManager, htmlManager)), "/query");
 
             server.start();
             server.join();

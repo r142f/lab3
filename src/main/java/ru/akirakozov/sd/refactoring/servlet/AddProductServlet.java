@@ -1,6 +1,7 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.database.DatabaseManager;
+import ru.akirakozov.sd.refactoring.html.HtmlManager;
 import ru.akirakozov.sd.refactoring.product.Product;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +13,8 @@ import java.io.IOException;
  */
 public class AddProductServlet extends BaseProductServlet {
 
-    public AddProductServlet(DatabaseManager databaseManager) {
-        super(databaseManager);
+    public AddProductServlet(DatabaseManager databaseManager, HtmlManager htmlManager) {
+        super(databaseManager, htmlManager);
     }
 
     @Override
@@ -24,8 +25,7 @@ public class AddProductServlet extends BaseProductServlet {
 
         databaseManager.insert(product);
 
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("OK");
+        htmlManager.printOk(response.getWriter());
+        setOkResponse(response);
     }
 }
