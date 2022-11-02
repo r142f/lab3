@@ -37,6 +37,10 @@ public class DatabaseManager implements AutoCloseable {
                 " PRICE          INT     NOT NULL)");
     }
 
+    public void dropTable() {
+        executeUpdate("DROP TABLE IF EXISTS PRODUCT");
+    }
+
     private <T> T executeQuery(String query, Action<ResultSet, T> action) {
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {

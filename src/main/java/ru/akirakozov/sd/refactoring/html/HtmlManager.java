@@ -7,14 +7,14 @@ import java.util.List;
 
 public class HtmlManager {
     private void printBody(PrintWriter writer, Runnable action) {
-        writer.println("<html><body>");
+        writer.print("<html><body>");
         action.run();
-        writer.println("</body></html>");
+        writer.print("</body></html>");
     }
 
     private void printWithHeader(PrintWriter writer, String header, Runnable action) {
         printBody(writer, () -> {
-            writer.println(header);
+            writer.print(header);
             action.run();
         });
     }
@@ -22,7 +22,7 @@ public class HtmlManager {
     private void printProductWithHeader(PrintWriter writer, Product product, String header) {
         printWithHeader(writer, header, () -> {
             if (product != null) {
-                writer.println(product.getName() + "\t" + product.getPrice() + "</br>");
+                writer.print(product.getName() + "\t" + product.getPrice() + "</br>");
             }
         });
     }
@@ -38,7 +38,7 @@ public class HtmlManager {
     public void printSummaryPrice(PrintWriter writer, Integer summaryPrice) {
         printWithHeader(writer, "Summary price: ", () -> {
             if (summaryPrice != null) {
-                writer.println(summaryPrice.intValue());
+                writer.print(summaryPrice.intValue());
             }
         });
     }
@@ -46,23 +46,23 @@ public class HtmlManager {
     public void printProductsAmount(PrintWriter writer, Integer productAmount) {
         printWithHeader(writer, "Number of products: ", () -> {
             if (productAmount != null) {
-                writer.println(productAmount.intValue());
+                writer.print(productAmount.intValue());
             }
         });
     }
 
     public void printUnknownCommand(PrintWriter writer, String command) {
-        writer.println("Unknown command: " + command);
+        writer.print("Unknown command: " + command);
     }
 
     public void printOk(PrintWriter writer) {
-        writer.println("OK");
+        writer.print("OK");
     }
 
     public void printProductsList(PrintWriter writer, List<Product> products) {
         printBody(writer, () -> {
             for (Product product : products) {
-                writer.println(product.getName() + "\t" + product.getPrice() + "</br>");
+                writer.print(product.getName() + "\t" + product.getPrice() + "</br>");
             }
         });
     }
