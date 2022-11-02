@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class DatabaseManager implements AutoCloseable {
     private final Connection connection;
 
@@ -59,27 +58,31 @@ public class DatabaseManager implements AutoCloseable {
     }
 
     public Product getMaxPriceProduct() {
-        return executeQuery("SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1", resultSet -> {
-            return resultSet.next() ? convertRowToProduct(resultSet) : null;
-        });
+        return executeQuery(
+                "SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1",
+                resultSet -> resultSet.next() ? convertRowToProduct(resultSet) : null
+        );
     }
 
     public Product getMinPriceProduct() {
-        return executeQuery("SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1", resultSet -> {
-            return resultSet.next() ? convertRowToProduct(resultSet) : null;
-        });
+        return executeQuery(
+                "SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1",
+                resultSet -> resultSet.next() ? convertRowToProduct(resultSet) : null
+        );
     }
 
     public Integer getSummaryPrice() {
-        return executeQuery("SELECT SUM(price) FROM PRODUCT", resultSet -> {
-            return resultSet.next() ? resultSet.getInt(1) : null;
-        });
+        return executeQuery(
+                "SELECT SUM(price) FROM PRODUCT",
+                resultSet -> resultSet.next() ? resultSet.getInt(1) : null
+        );
     }
 
     public Integer getProductsAmount() {
-        return executeQuery("SELECT COUNT(*) FROM PRODUCT", resultSet -> {
-            return resultSet.next() ? resultSet.getInt(1) : null;
-        });
+        return executeQuery(
+                "SELECT COUNT(*) FROM PRODUCT",
+                resultSet -> resultSet.next() ? resultSet.getInt(1) : null
+        );
     }
 
     @Override

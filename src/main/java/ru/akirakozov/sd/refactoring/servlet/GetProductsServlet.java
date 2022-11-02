@@ -2,12 +2,10 @@ package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.database.DatabaseManager;
 import ru.akirakozov.sd.refactoring.html.HtmlManager;
-import ru.akirakozov.sd.refactoring.product.Product;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author akirakozov
