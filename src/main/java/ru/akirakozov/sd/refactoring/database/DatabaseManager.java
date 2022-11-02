@@ -31,7 +31,14 @@ public class DatabaseManager implements AutoCloseable {
                 + product.getName() + "\"," + product.getPrice() + ")");
     }
 
-    private List<Product> executeQuery(String query, Action<ResultSet, List<Product>> action) {
+    public void createTable() {
+        executeUpdate("CREATE TABLE IF NOT EXISTS PRODUCT" +
+                "(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                " NAME           TEXT    NOT NULL, " +
+                " PRICE          INT     NOT NULL)");
+    }
+
+    private <T> T executeQuery(String query, Action<ResultSet, T> action) {
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
             return action.run(resultSet);
@@ -51,6 +58,30 @@ public class DatabaseManager implements AutoCloseable {
         });
     }
 
+    public Product getMaxPriceProduct() {
+        return executeQuery("SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1", resultSet -> {
+            return resultSet.next() ? convertRowToProduct(resultSet) : null;
+        });
+    }
+
+    public Product getMinPriceProduct() {
+        return executeQuery("SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1", resultSet -> {
+            return resultSet.next() ? convertRowToProduct(resultSet) : null;
+        });
+    }
+
+    public Integer getSummaryPrice() {
+        return executeQuery("SELECT SUM(price) FROM PRODUCT", resultSet -> {
+            return resultSet.next() ? resultSet.getInt(1) : null;
+        });
+    }
+
+    public Integer getProductsAmount() {
+        return executeQuery("SELECT COUNT(*) FROM PRODUCT", resultSet -> {
+            return resultSet.next() ? resultSet.getInt(1) : null;
+        });
+    }
+
     @Override
     public void close() throws Exception {
         connection.close();
@@ -64,6 +95,7 @@ public class DatabaseManager implements AutoCloseable {
     Product convertRowToProduct(ResultSet resultSet) throws SQLException {
         String name = resultSet.getString("name");
         int price = resultSet.getInt("price");
+
         return new Product(name, price);
     }
 }
